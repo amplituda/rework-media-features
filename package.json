@@ -1,0 +1,34 @@
+{
+  "name": "rework-media-features",
+  "version": "0.1.0",
+  "description": "CSS Media Query Level 4 Hover Processor",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n-fuse/rework-media-features.git"
+  },
+  "keywords": [
+    "css",
+    "media-features",
+    "rework",
+    "media-query",
+    "media-queries",
+    "preprocessor",
+    "rework-plugin",
+    "hover"
+  ],
+  "author": "Roman Stercken",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/n-fuse/rework-media-features/issues"
+  },
+  "homepage": "https://github.com/n-fuse/rework-media-features#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "rework": "^1.0.1"
+  }
+}
