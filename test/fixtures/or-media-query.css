@@ -1,0 +1,11 @@
+@media (hover: hover), (orientation: landscape) {
+  .foobar {
+    display: none;
+  }
+}
+
+@media screen and (hover: hover), screen and (orientation: landscape) {
+  .foobar {
+    display: none;
+  }
+}

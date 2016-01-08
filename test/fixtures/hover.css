@@ -1,0 +1,10 @@
+@media (hover: hover) {
+  .foobar {
+    color: white;
+    background: red;
+  }
+  div .quux > input {
+    color: blue;
+    background: white;
+  }
+}

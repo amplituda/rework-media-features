@@ -1,0 +1,22 @@
+@media (orientation: landscape) {
+  PREFIX>.foobar {
+    display: none;
+  }
+}
+@media screen and (orientation: landscape) {
+  PREFIX>.foobar {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) {
+  PREFIX>.foobar {
+    display: none;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  PREFIX>.foobar {
+    display: none;
+  }
+}

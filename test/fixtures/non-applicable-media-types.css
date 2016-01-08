@@ -1,0 +1,5 @@
+@media print and (hover: hover) {
+  .foobar {
+    display: none;
+  }
+}

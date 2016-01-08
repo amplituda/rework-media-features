@@ -1,111 +1,76 @@
 var expect = require('chai').expect;
 var preprocessor = require('../index.js');
+var rework = require('rework');
+var fs = require('fs');
 
-console.log(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-(".foobar { display: none; }").css));
+function fixture(name) {
+  return fs.readFileSync('test/fixtures/' + name + '.css', 'utf8').trim();
+}
+
+function compareFixtures(name) {
+  var options = {hoverSelectorPrefix: 'PREFIX>'};
+  var actual = rework(fixture(name), { source: name + '.css' })
+  .use(preprocessor(options)).toString().trim();
+  var expected = fixture(name + '.out');
+  return expect(actual).to.deep.equal(expected);
+}
+
+function expectedError(name, options) {
+  expect(preprocessor(options))
+  .to.throw(Error, 'hoverSelectorPrefix option must be a string');
+}
 
 describe('rework-media-features', function () {
   it('has no effect when there are no media queries.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    (".foobar { display: none; }").css)
-    .to.deep.equal(".foobar { display: none; }"));
+    compareFixtures('no-media-query');
+
   });
 
   it('skips non-media at-rules.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@quux (hover: hover) { .foobar { display: none; } }").css)
-    .to.deep.equal("@quux (hover: hover) { .foobar { display: none; } }"));
+    compareFixtures('non-media-rules');
   });
 
   it('skips media queries with only a media type.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media screen { .foobar { display: none; } }").css)
-    .to.deep.equal("@media screen { .foobar { display: none; } }"));
+    compareFixtures('media-type');
   });
 
   it('skips media queries with ORs.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (hover: hover), (orientation: landscape) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media (hover: hover), (orientation: landscape) { .foobar { display: none; } }"));
-
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media screen and (hover: hover), screen and (orientation: landscape) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media screen and (hover: hover), screen and (orientation: landscape) { .foobar { display: none; } }"));
+    compareFixtures('or-media-query');
   });
 
   it('skips media queries with ANDs.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (hover: hover) and (orientation: landscape) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media (hover: hover) and (orientation: landscape) { .foobar { display: none; } }"));
-
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media screen and (hover: hover) and (orientation: landscape) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media screen and (hover: hover) and (orientation: landscape) { .foobar { display: none; } }"));
+    compareFixtures('and-media-query');
   });
 
   it('skips media queries that are not about the hover media feature.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (orientation: landscape) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media (orientation: landscape) { .foobar { display: none; } }"));
+    compareFixtures('no-hover');
   });
 
   it('skips media queries about the hover media feature with a non-hover value', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (hover: none) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media (hover: none) { .foobar { display: none; } }"));
-
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (hover: on-demand) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media (hover: on-demand) { .foobar { display: none; } }"));
+    compareFixtures('non-hover-value');
   });
 
   it('works correctly on a representative example.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (hover: hover) { .foobar { color: white; background: red; } div .quux > input { color: blue; background: white; } }").css)
-    .to.deep.equal("PREFIX>.foobar {\n    color: white;\n    background: red;\n}\nPREFIX>div .quux > input {\n    color: blue;\n    background: white;\n}"));
+    compareFixtures('hover');
   });
 
   it('handles nested at-rules.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (orientation: landscape) { @media (hover: hover) { .foobar { display: none; } } }").css)
-    .to.deep.equal("@media (orientation: landscape) { PREFIX>.foobar { display: none; } }"));
-
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media screen and (orientation: landscape) { @media (hover: hover) { .foobar { display: none; } } }").css)
-    .to.deep.equal("@media screen and (orientation: landscape) { PREFIX>.foobar { display: none; } }"));
-
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (hover: hover) { @media (orientation: landscape) { .foobar { display: none; } } }").css)
-    .to.deep.equal("@media (orientation: landscape) {\n    PREFIX>.foobar {\n        display: none;\n    }\n}"));
-
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media (hover: hover) { @media screen and (orientation: landscape) { .foobar { display: none; } } }").css)
-    .to.deep.equal("@media screen and (orientation: landscape) {\n    PREFIX>.foobar {\n        display: none;\n    }\n}"));
+    compareFixtures('nested-rules');
   });
 
   it('handles applicable media types.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media screen and (hover: hover) { .foobar { display: none; } }").css)
-    .to.deep.equal("@media screen { PREFIX>.foobar { display: none; } }"));
+    compareFixtures('applicable-media-types');
   });
 
   it('handles non-applicable media types.', function() {
-    expect(preprocessor({hoverSelectorPrefix: 'PREFIX>'},
-    ("@media print and (hover: hover) { .foobar { display: none; } }").css)
-    .to.deep.equal(""));
+    compareFixtures('non-applicable-media-types');
   });
 
   it('throws errors when hoverSelectorPrefix is not provided.', function() {
-    expect(function () {
-      preprocessor({})
-      ("@media (hover: hover) { .foobar { display: none; } }").css;
-    }).to.throw(Error, 'hoverSelectorPrefix option must be a string');
+    expectedError('prefix-errors', {});
   });
-  
+
   it('throws errors when hoverSelectorPrefix is not a string.', function() {
-    expect(function () {
-      preprocessor({hoverSelectorPrefix: 42})
-      ("@media (hover: hover) { .foobar { display: none; } }").css;
-    }).to.throw(Error, 'hoverSelectorPrefix option must be a string');
+    expectedError('prefix-errors', {hoverSelectorPrefix: 42});
   });
 });

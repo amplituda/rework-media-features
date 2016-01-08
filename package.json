@@ -38,7 +38,11 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
+    "fs": "0.0.2",
     "mocha": "^2.3.4",
     "rework": "^1.0.1"
+  },
+  "dependencies": {
+    "rework-walk": "^1.0.0"
   }
 }

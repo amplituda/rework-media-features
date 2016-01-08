@@ -1,0 +1,9 @@
+PREFIX>.foobar {
+  color: white;
+  background: red;
+}
+
+PREFIX>div .quux > input {
+  color: blue;
+  background: white;
+}

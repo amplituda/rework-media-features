@@ -1,0 +1,11 @@
+@media (hover: none) {
+  .foobar {
+    display: none;
+  }
+}
+
+@media (hover: on-demand) {
+  .foobar {
+    display: none;
+  }
+}
