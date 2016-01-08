@@ -3,13 +3,7 @@
   "version": "0.1.0",
   "description": "CSS Media Query Level 4 Hover Processor",
   "main": "index.js",
-  "scripts": {
-    "test": "mocha --reporter spec"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/n-fuse/rework-media-features.git"
-  },
+  "homepage": "https://github.com/n-fuse/rework-media-features#readme",
   "keywords": [
     "css",
     "media-features",
@@ -20,12 +14,28 @@
     "rework-plugin",
     "hover"
   ],
-  "author": "Roman Stercken",
+  "author": {
+    "name": "n-fuse GmbH",
+    "email": "info@n-fuse.de",
+    "url": "www.n-fuse.de"
+  },
+  "contributors": [
+    {
+      "name": "Roman Stercken",
+      "email": "roman.stercken@n-fuse.de"
+    }
+  ],
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/n-fuse/rework-media-features.git"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/n-fuse/rework-media-features/issues"
   },
-  "homepage": "https://github.com/n-fuse/rework-media-features#readme",
   "devDependencies": {
     "chai": "^3.4.1",
     "mocha": "^2.3.4",
