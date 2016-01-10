@@ -9,7 +9,7 @@ function fixture(name) {
 
 function compareFixtures(name) {
   var options = {hoverSelectorPrefix: 'PREFIX>'};
-  var actual = rework(fixture(name), { source: name + '.css' })
+  var actual = rework(fixture(name))
   .use(preprocessor(options)).toString().trim();
   var expected = fixture(name + '.out');
   return expect(actual).to.deep.equal(expected);
