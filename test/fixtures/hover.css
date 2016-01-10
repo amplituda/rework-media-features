@@ -8,3 +8,10 @@
     background: white;
   }
 }
+
+@media (hover: hover) {
+  .test {
+    color: white;
+    background: red;
+  }
+}

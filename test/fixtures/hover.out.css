@@ -7,3 +7,8 @@ PREFIX>div .quux > input {
   color: blue;
   background: white;
 }
+
+PREFIX>.test {
+  color: white;
+  background: red;
+}

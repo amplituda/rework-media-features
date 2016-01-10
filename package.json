@@ -42,7 +42,5 @@
     "mocha": "^2.3.4",
     "rework": "^1.0.1"
   },
-  "dependencies": {
-    "rework-walk": "^1.0.0"
-  }
+  "dependencies": {}
 }
