@@ -102,7 +102,8 @@ function optimizeHover(rules, hoverSelectorPrefix, addHover) {
 */
 module.exports = function (options) {
   return function(ast) {
-    var hoverSelectorPrefix = options.hoverSelectorPrefix;
+    // If no prefix was set, simply removes the @media (hover: hover).
+    var hoverSelectorPrefix = options.hoverSelectorPrefix || "";
 
     /*
     * Throw error, if options either don't define a hoverSelectorPrefix,
@@ -111,6 +112,10 @@ module.exports = function (options) {
     if ((typeof hoverSelectorPrefix) !== 'string') {
       throw new Error('hoverSelectorPrefix option must be a string');
     }
+
+    // Make sure, prefix has exactly one whitespace.
+    if (hoverSelectorPrefix !== "")
+      hoverSelectorPrefix = hoverSelectorPrefix.trim() + " ";
 
     ast.rules = optimizeHover(ast.rules, hoverSelectorPrefix);
   }

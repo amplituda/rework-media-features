@@ -1,14 +1,14 @@
-PREFIX>.foobar {
+PREFIX> .foobar {
   color: white;
   background: red;
 }
 
-PREFIX>div .quux > input {
+PREFIX> div .quux > input {
   color: blue;
   background: white;
 }
 
-PREFIX>.test {
+PREFIX> .test {
   color: white;
   background: red;
 }

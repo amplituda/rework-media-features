@@ -7,8 +7,8 @@ function fixture(name) {
   return fs.readFileSync('test/fixtures/' + name + '.css', 'utf8').trim();
 }
 
-function compareFixtures(name) {
-  var options = {hoverSelectorPrefix: 'PREFIX>'};
+function compareFixtures(name, options) {
+  options = options || {hoverSelectorPrefix: 'PREFIX>'};
   var actual = rework(fixture(name))
   .use(preprocessor(options)).toString().trim();
   var expected = fixture(name + '.out');
@@ -66,8 +66,8 @@ describe('rework-media-features', function () {
     compareFixtures('non-applicable-media-types');
   });
 
-  it('throws errors when hoverSelectorPrefix is not provided.', function() {
-    expectedError('prefix-errors', {});
+  it('handles no prefix.', function() {
+    compareFixtures('prefix-errors', {});
   });
 
   it('throws errors when hoverSelectorPrefix is not a string.', function() {

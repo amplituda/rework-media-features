@@ -1,5 +1,3 @@
-@media (hover: hover) {
-  .foobar {
-    display: none;
-  }
+.foobar {
+  display: none;
 }
