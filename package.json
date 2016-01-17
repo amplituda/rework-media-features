@@ -30,7 +30,11 @@
     }
   ],
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "npm run jshint && npm run jscs && npm run mocha",
+    "jshint": "./node_modules/.bin/jshint *.json *.js",
+    "jscs": "./node_modules/.bin/jscs *.js",
+    "mocha": "./node_modules/mocha/bin/mocha --harmony --harmony_arrow_functions ./test/*",
+    "coveralls": "node --harmony --harmony_arrow_functions node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/*"
   },
   "repository": {
     "type": "git",
@@ -42,7 +46,11 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
     "fs": "0.0.2",
+    "istanbul": "^0.4.2",
+    "jscs": "^2.8.0",
+    "jshint": "^2.9.1",
     "mocha": "^2.3.4",
     "rework": "^1.0.1"
   },

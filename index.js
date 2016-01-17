@@ -1,6 +1,8 @@
 /**
  * (hover: hover) can only be paired with a mediaType.
  * If there is more than 1 'and', the (hover: hover) shouldn't be replaced.
+ *
+ * @param {string} media
  */
 function getMediaType(media) {
   var parts = media.split(' and ');
@@ -19,10 +21,11 @@ function getMediaType(media) {
 /**
  * print and speech are never applicable with hover, so those rules can be
  * deleted.
- * @param mediaType: string.
+ *
+ * @param {string} mediaType
  */
 function keepRule(mediaType) {
-  switch(mediaType) {
+  switch (mediaType) {
     case 'print': return false; // Delete.
     case 'speech': return false;
     default: return true; // Ignore.
@@ -38,21 +41,21 @@ function keepRule(mediaType) {
  * rule.media is changed to screen, and children rules get
  * hoverSelectorPrefix added before every selector.
  *
- * @param rules: Rules to walk over.
- * @param hoverSelectorPrefix: prefix to add before every selector belonging
+ * @param {Array} rules - Rules to walk over.
+ * @param {string} hoverSelectorPrefix - prefix to add before every selector belonging
  *        to a valid hover rule.
- * @param addHover: Since optimzeHover walks the rules recursively, addHover
+ * @param {boolean} addHover - Since optimzeHover walks the rules recursively, addHover
  *        remembers, if a valid hover rule is waiting to be added as prefix.
  */
 function optimizeHover(rules, hoverSelectorPrefix, addHover) {
   var newRules = [];
-  var addHover = addHover || false;
+  addHover = addHover || false;
 
   rules.forEach(function(rule, i) {
     if (rule.type === 'media')  {
       if (rule.media.indexOf('(hover: hover)') > -1) {
         // Has (hover: hover) rule.
-        if(rule.media.indexOf(',') > -1)  {
+        if (rule.media.indexOf(',') > -1)  {
           // Ignore or-rules.
           newRules.push(rule);
           return;
@@ -60,7 +63,7 @@ function optimizeHover(rules, hoverSelectorPrefix, addHover) {
 
         // Check mediaType.
         var mediaType = getMediaType(rule.media);
-        if(mediaType === 'all') {
+        if (mediaType === 'all') {
           // Pull up children.
           var childRules = optimizeHover(rule.rules, hoverSelectorPrefix, true);
           newRules = newRules.concat(childRules);
@@ -100,10 +103,10 @@ function optimizeHover(rules, hoverSelectorPrefix, addHover) {
 /**
 * Module export.
 */
-module.exports = function (options) {
+module.exports = function(options) {
   return function(ast) {
     // If no prefix was set, simply removes the @media (hover: hover).
-    var hoverSelectorPrefix = options.hoverSelectorPrefix || "";
+    var hoverSelectorPrefix = options.hoverSelectorPrefix || '';
 
     /*
     * Throw error, if options either don't define a hoverSelectorPrefix,
@@ -114,9 +117,9 @@ module.exports = function (options) {
     }
 
     // Make sure, prefix has exactly one whitespace.
-    if (hoverSelectorPrefix !== "")
-      hoverSelectorPrefix = hoverSelectorPrefix.trim() + " ";
+    if (hoverSelectorPrefix !== '')
+      hoverSelectorPrefix = hoverSelectorPrefix.trim() + ' ';
 
     ast.rules = optimizeHover(ast.rules, hoverSelectorPrefix);
-  }
-}
+  };
+};
