@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/n-fuse/rework-media-features/badge.svg?branch=master&service=github)](https://coveralls.io/github/n-fuse/rework-media-features?branch=master)
 # rework-media-features
 
 A [Rework](https://github.com/reworkcss/rework) (`>=1.0.0`) plugin to add support for the
