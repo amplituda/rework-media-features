@@ -3,3 +3,9 @@
     display: none;
   }
 }
+
+@media speech and (hover: hover) {
+  .foobar {
+    display: none;
+  }
+}
