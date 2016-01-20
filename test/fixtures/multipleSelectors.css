@@ -1,0 +1,8 @@
+@media (hover: hover) {
+  .foo,
+  .bar,
+  .foobar {
+    color: white;
+    background: red;
+  }
+}

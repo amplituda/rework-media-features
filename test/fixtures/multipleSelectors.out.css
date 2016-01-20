@@ -1,0 +1,6 @@
+PREFIX> .foo,
+PREFIX> .bar,
+PREFIX> .foobar {
+  color: white;
+  background: red;
+}
