@@ -54,6 +54,10 @@ describe('rework-media-features', function () {
     compareFixtures('hover');
   });
 
+  it('works correctly with multiple selectors.', function() {
+    compareFixtures('multipleSelectors');
+  });
+
   it('handles nested at-rules.', function() {
     compareFixtures('nested-rules');
   });
